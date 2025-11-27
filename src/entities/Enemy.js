@@ -14,5 +14,10 @@ export default class Enemy extends Entity {
         if (this.y > game.canvas.height) {
             this.dead = true;
         }
+           if (Collision.checkCollision(this, game.player)) {
+            game.player.takeDamage(1);
+            this.dead = true;
+        }
     }
+
 }

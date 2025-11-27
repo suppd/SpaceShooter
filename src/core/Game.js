@@ -48,6 +48,15 @@ export default class Game {
         this.entities = this.entities.filter(e => !e.dead);
         this.enemies = this.enemies.filter(e => !e.dead);
         this.bullets = this.bullets.filter(e => !e.dead);
+
+        this.bullets.forEach(bullet => {
+            this.enemies.forEach(enemy => {
+                if (Collision.checkCollision(bullet, enemy)) {
+                    enemy.takeDamage(1);
+                    bullet.dead = true;
+                }
+            });
+        });
     }
 
     render() {
