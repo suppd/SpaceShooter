@@ -2,6 +2,7 @@ import Input from "./Input.js";
 import Renderer from "../engine/Renderer.js";
 import Player from "../entities/Player.js";
 import EnemySpawner from "../systems/EnemySpawner.js";
+import Collision from "../engine/Collision.js";
 
 export default class Game {
     constructor() {
