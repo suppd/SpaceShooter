@@ -2,6 +2,7 @@ import Input from "./Input.js";
 import Renderer from "../engine/Renderer.js";
 import Player from "../entities/Player.js";
 import EnemySpawner from "../systems/EnemySpawner.js";
+import Collision from "../engine/Collision.js";
 
 export default class Game {
     constructor() {
@@ -22,6 +23,7 @@ export default class Game {
         this.player = new Player(this.canvas.width / 2 - 20, this.canvas.height - 80);
         this.entities.push(this.player);
 
+        Boolean.gameOver = false;
     }
 
     start() {
@@ -38,6 +40,8 @@ export default class Game {
     }
 
     update(dt) {
+        if (this.gameOver) return; // Stop updating if game is over (player died)
+
         [...this.entities, ...this.enemies, ...this.bullets].forEach(e => {
             if (!e.dead) e.update(dt, this);
         });
@@ -47,6 +51,15 @@ export default class Game {
         this.entities = this.entities.filter(e => !e.dead);
         this.enemies = this.enemies.filter(e => !e.dead);
         this.bullets = this.bullets.filter(e => !e.dead);
+
+        this.bullets.forEach(bullet => {
+            this.enemies.forEach(enemy => {
+                if (Collision.checkCollision(bullet, enemy)) {
+                    enemy.takeDamage(1);
+                    bullet.dead = true;
+                }
+            });
+        });
     }
 
     render() {
