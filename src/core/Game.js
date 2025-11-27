@@ -23,6 +23,7 @@ export default class Game {
         this.player = new Player(this.canvas.width / 2 - 20, this.canvas.height - 80);
         this.entities.push(this.player);
 
+        Boolean.gameOver = false;
     }
 
     start() {
@@ -39,6 +40,8 @@ export default class Game {
     }
 
     update(dt) {
+        if (this.gameOver) return; // Stop updating if game is over (player died)
+
         [...this.entities, ...this.enemies, ...this.bullets].forEach(e => {
             if (!e.dead) e.update(dt, this);
         });
