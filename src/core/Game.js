@@ -63,6 +63,13 @@ export default class Game {
                 }
             });
         });
+        // collision detection enemy bullets on player
+        this.enemyBullets.forEach(bullet => {
+            if (Collision.checkCollision(bullet, this.player)) {
+                this.player.takeDamage(1, this);
+                bullet.dead = true;
+            }
+        });
     }
 
     render() {
