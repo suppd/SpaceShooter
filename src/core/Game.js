@@ -18,6 +18,7 @@ export default class Game {
         this.entities = [];
         this.bullets = [];
         this.enemies = [];
+        this.enemyBullets = [];
         this.particles = [];
 
         this.player = new Player(this.canvas.width / 2 - 20, this.canvas.height - 80);
@@ -40,9 +41,9 @@ export default class Game {
     }
 
     update(dt) {
-        if (this.gameOver) return; // Stop updating if game is over (player died)
-
-        [...this.entities, ...this.enemies, ...this.bullets].forEach(e => {
+        if (this.gameOver) return;
+        // update all gameobjects
+        [...this.entities, ...this.enemies, ...this.bullets, ...this.enemyBullets].forEach(e => {
             if (!e.dead) e.update(dt, this);
         });
 
@@ -51,7 +52,9 @@ export default class Game {
         this.entities = this.entities.filter(e => !e.dead);
         this.enemies = this.enemies.filter(e => !e.dead);
         this.bullets = this.bullets.filter(e => !e.dead);
+        this.enemyBullets = this.enemyBullets.filter(e => !e.dead);
 
+        /// collision detection bullets enemies
         this.bullets.forEach(bullet => {
             this.enemies.forEach(enemy => {
                 if (Collision.checkCollision(bullet, enemy)) {

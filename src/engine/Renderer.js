@@ -10,8 +10,9 @@ export default class Renderer {
 
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        [...game.entities, ...game.enemies, ...game.bullets, ...game.particles]
+        
+        // draw all gameobjects (dont forget to add new game object arrays here)
+        [...game.entities, ...game.enemies, ...game.bullets, ...game.particles, ...game.enemyBullets]
             .forEach(e => e.draw(ctx));
     }
 }
