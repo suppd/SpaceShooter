@@ -7,7 +7,7 @@ export default class Player extends Entity {
         this.speed = 0.35;
         this.fireCooldown = 200;
         this.fireTimer = 0;
-        this.hp = 1;
+        this.hp = 3;
     }
 
     update(dt, game) {

@@ -16,10 +16,10 @@ export default class Entity {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-        takeDamage(amount) {
-        this.hp -= amount;
-        if (this.hp <= 0) {
-            this.dead = true;
-        }
+    takeDamage(amount) {
+    this.hp -= amount;
+    if (this.hp <= 0) {
+        this.dead = true;
+    }
     }
 }

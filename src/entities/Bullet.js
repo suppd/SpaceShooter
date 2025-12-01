@@ -8,7 +8,6 @@ export default class Bullet extends Entity {
 
     update(dt, game) {
         this.y -= this.speed * dt;
-
         if (this.y + this.height < 0) {
             this.dead = true;
         }
