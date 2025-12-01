@@ -1,11 +1,13 @@
 import Entity from "./Entity.js";
 import Collision from "../engine/Collision.js";
+import EnemyBullet from "../entities/EnemyBullet.js";
 
 export default class Enemy extends Entity {
-    constructor(x, y) {
+    constructor(game, x, y) {
         super(x, y, 40, 40, "red");
         this.speed = 0.2;
         this.hp = 2;
+        this.shootCooldown = Math.random() * 60 + 60; 
     }
 
     update(dt, game) {
@@ -14,10 +16,22 @@ export default class Enemy extends Entity {
         if (this.y > game.canvas.height) {
             this.dead = true;
         }
-           if (Collision.checkCollision(this, game.player)) {
+        if (Collision.checkCollision(this, game.player)) {
             game.player.takeDamage(1);
             this.dead = true;
         }
+
+        this.shootCooldown--;
+        if (this.shootCooldown <= 0) {
+            this.shoot(game);
+            this.shootCooldown = Math.random() * 60 + 60; 
+        }
+    }
+    
+    shoot(game) {
+        const bx = this.x + this.width / 2 - 3;
+        const by = this.y + this.height;
+        game.enemyBullets.push(new EnemyBullet(bx, by));
     }
 
 }

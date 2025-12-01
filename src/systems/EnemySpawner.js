@@ -17,7 +17,7 @@ export default class EnemySpawner {
 
     spawnEnemy(game) {
         const x = Math.random() * (game.canvas.width - 40);
-        const enemy = new Enemy(x, -40);
+        const enemy = new Enemy(game,x, -40);
         game.enemies.push(enemy);
     }
 }
