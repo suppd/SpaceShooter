@@ -3,6 +3,7 @@ import Renderer from "../engine/Renderer.js";
 import Player from "../entities/Player.js";
 import EnemySpawner from "../systems/EnemySpawner.js";
 import Collision from "../engine/Collision.js";
+import HUD from "../ui/HUD.js";
 
 export default class Game {
     constructor() {
@@ -14,6 +15,7 @@ export default class Game {
         this.input = new Input(this);
         this.renderer = new Renderer(this.ctx);
         this.enemySpawner = new EnemySpawner(this);
+        this.hud = new HUD(this.ctx);
 
         this.entities = [];
         this.bullets = [];
