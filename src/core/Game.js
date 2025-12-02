@@ -40,14 +40,16 @@ export default class Game {
     loop(timestamp) {
         const dt = timestamp - this.lastTime;
         this.lastTime = timestamp;
-
         this.update(dt);
         this.render();
         requestAnimationFrame(this.loop.bind(this));
     }
 
     update(dt) {
-        if (this.gameOver) return;
+        if (this.gameOver){
+            return;
+        }
+        this.timeSurvived += dt;
         // update all gameobjects
         [...this.entities, ...this.enemies, ...this.bullets, ...this.enemyBullets].forEach(e => {
             if (!e.dead) e.update(dt, this);
@@ -77,9 +79,34 @@ export default class Game {
             }
         });
     }
-
+    addListeners() {
+        window.addEventListener("keydown", e => {
+        if (this.gameOver && e.code === "KeyR") {
+            this.restartLevel();
+        }
+    });
+    }  
     render() {
         this.renderer.render(this);
+        this.hud.update(this, this.ctx);
     }
-    
+    //helper methods
+    restartLevel() {
+        // clear everything
+        this.score = 0;
+        this.timeSurvived = 0;
+        this.gameOver = false;
+
+        this.player.x = this.canvas.width / 2 - 20;
+        this.player.y = this.canvas.height - 80;
+        this.player.hp = 3;
+
+
+        this.enemies = [];
+        this.bullets = [];
+        this.entities = [this.player];
+    }
+    addScore(amount) {
+        this.score += amount;
+    }
 }
