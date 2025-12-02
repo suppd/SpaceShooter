@@ -33,5 +33,11 @@ export default class Enemy extends Entity {
         const by = this.y + this.height;
         game.enemyBullets.push(new EnemyBullet(bx, by));
     }
-
+   takeDamage(amount,game) {
+        this.hp -= amount;
+        if (this.hp <= 0) {
+            this.dead = true;
+            game.addScore(1);
+        }
+    }
 }

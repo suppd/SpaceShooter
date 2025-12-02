@@ -62,11 +62,16 @@ export default class Game {
         this.bullets = this.bullets.filter(e => !e.dead);
         this.enemyBullets = this.enemyBullets.filter(e => !e.dead);
 
+        this.handleCollisions();
+        
+    }
+
+    handleCollisions() {
         /// collision detection bullets enemies
         this.bullets.forEach(bullet => {
             this.enemies.forEach(enemy => {
                 if (Collision.checkCollision(bullet, enemy)) {
-                    enemy.takeDamage(1);
+                    enemy.takeDamage(1,this);
                     bullet.dead = true;
                 }
             });
