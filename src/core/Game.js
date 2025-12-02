@@ -25,8 +25,12 @@ export default class Game {
 
         this.player = new Player(this.canvas.width / 2 - 20, this.canvas.height - 80);
         this.entities.push(this.player);
+        //Game Logic Variables
+        this.score = 0;
+        this.timeSurvived = 0;
+        this.gameOver = false;
 
-        Boolean.gameOver = false;
+        this.addListeners();
     }
 
     start() {
