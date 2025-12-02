@@ -17,9 +17,9 @@ export default class Entity {
     }
 
     takeDamage(amount) {
-    this.hp -= amount;
-    if (this.hp <= 0) {
-        this.dead = true;
-    }
+        this.hp -= amount;
+        if (this.hp <= 0) {
+            this.dead = true;
+        }
     }
 }
