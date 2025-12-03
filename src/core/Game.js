@@ -32,7 +32,7 @@ export default class Game {
         this.timeSurvived = 0;
         this.gameOver = false;
 
-        this.addListeners();
+        this.addMenuInput();
     }
 
     start() {
@@ -48,12 +48,16 @@ export default class Game {
     }
 
     update(dt) {
-        if (this.gameOver){
+        if (this.state === "menu") return;
+
+        if (this.gameOver) {
+            this.state = "gameover";
             return;
         }
+
         this.timeSurvived += dt;
         // update all gameobjects
-        [...this.entities, ...this.enemies, ...this.bullets, ...this.enemyBullets].forEach(e => {
+        [...this.entities, ...this.enemies, ...this.bullets, ...this.enemyBullets, ...this.particles].forEach(e => {
             if (!e.dead) e.update(dt, this);
         });
 
@@ -63,35 +67,44 @@ export default class Game {
         this.enemies = this.enemies.filter(e => !e.dead);
         this.bullets = this.bullets.filter(e => !e.dead);
         this.enemyBullets = this.enemyBullets.filter(e => !e.dead);
+        this.particles = this.particles.filter(e => !e.dead);
 
         this.handleCollisions();
         
     }
 
     handleCollisions() {
-        /// collision detection bullets enemies
+        /// collision detection bullets - enemies
         this.bullets.forEach(bullet => {
             this.enemies.forEach(enemy => {
                 if (Collision.checkCollision(bullet, enemy)) {
                     enemy.takeDamage(1,this);
+                    ParticleSystem.hit(this, enemy.x + enemy.width/2, enemy.y + enemy.height/2);
                     bullet.dead = true;
                 }
             });
         });
-        // collision detection enemy bullets on player
+        // collision detection enemy bullets - player
         this.enemyBullets.forEach(bullet => {
             if (Collision.checkCollision(bullet, this.player)) {
                 this.player.takeDamage(1, this);
+                ParticleSystem.hit(this, this.player.x + this.player.width/2, this.player.y + this.player.height/2);
                 bullet.dead = true;
             }
         });
     }
-    addListeners() {
+    addMenuInput() {
         window.addEventListener("keydown", e => {
-        if (this.gameOver && e.code === "KeyR") {
-            this.restartLevel();
-        }
-    });
+            if (this.state === "menu" && e.key === "Enter") {
+                this.restartLevel();
+                this.state = "playing";
+                console.log("Game Started");
+            }
+            if (this.state === "gameover" && e.key === "r") {
+                this.restartLevel();
+                this.state = "playing";
+            }
+        });
     }  
     render() {
         this.renderer.render(this);
