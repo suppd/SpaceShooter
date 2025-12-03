@@ -4,11 +4,13 @@ import Player from "../entities/Player.js";
 import EnemySpawner from "../systems/EnemySpawner.js";
 import Collision from "../engine/Collision.js";
 import HUD from "../ui/HUD.js";
+import ParticleSystem from "../systems/ParticleSystem.js";
 
 export default class Game {
     constructor() {
         this.canvas = document.getElementById("gameCanvas");
         this.ctx = this.canvas.getContext("2d");
+        this.state = "menu";
 
         this.lastTime = performance.now();
 
