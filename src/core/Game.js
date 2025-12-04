@@ -129,4 +129,11 @@ export default class Game {
     addScore(amount) {
         this.score += amount;
     }
+    filterDead() {
+        this.entities = this.entities.filter(e => !e.dead);
+        this.enemies = this.enemies.filter(e => !e.dead);
+        this.bullets = this.bullets.filter(e => !e.dead);
+        this.enemyBullets = this.enemyBullets.filter(e => !e.dead);
+        this.particles = this.particles.filter(e => !e.dead);
+    }
 }
