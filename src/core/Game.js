@@ -5,6 +5,7 @@ import EnemySpawner from "../systems/EnemySpawner.js";
 import Collision from "../engine/Collision.js";
 import HUD from "../ui/HUD.js";
 import ParticleSystem from "../systems/ParticleSystem.js";
+import Screenshake from "../effects/Screenshake.js";
 
 export default class Game {
     constructor() {
@@ -18,6 +19,7 @@ export default class Game {
         this.renderer = new Renderer(this.ctx);
         this.enemySpawner = new EnemySpawner(this);
         this.hud = new HUD(this.ctx);
+        this.screenshake = new Screenshake();
 
         this.entities = [];
         this.bullets = [];
@@ -54,21 +56,15 @@ export default class Game {
             this.state = "gameover";
             return;
         }
-
+        this.screenshake.update(dt);
         this.timeSurvived += dt;
         // update all gameobjects
         [...this.entities, ...this.enemies, ...this.bullets, ...this.enemyBullets, ...this.particles].forEach(e => {
             if (!e.dead) e.update(dt, this);
         });
-
         this.enemySpawner.update(dt, this);
 
-        this.entities = this.entities.filter(e => !e.dead);
-        this.enemies = this.enemies.filter(e => !e.dead);
-        this.bullets = this.bullets.filter(e => !e.dead);
-        this.enemyBullets = this.enemyBullets.filter(e => !e.dead);
-        this.particles = this.particles.filter(e => !e.dead);
-
+        this.filterDead();
         this.handleCollisions();
         
     }

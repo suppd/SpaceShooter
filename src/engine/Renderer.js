@@ -12,12 +12,18 @@ export default class Renderer {
         }
         const ctx = this.ctx;
         const canvas = game.canvas;
-
+        ctx.save();
+        
+        const shake = game.screenshake.getOffset();
+        ctx.translate(shake.x, shake.y);
+        
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.textAlign = "left";
+
         // draw all gameobjects (dont forget to add new game object arrays here)
         [...game.entities, ...game.enemies, ...game.bullets, ...game.particles, ...game.enemyBullets]
-            .forEach(e => e.draw(ctx)); 
-    }   
+            .forEach(e => e.draw(ctx));
+        ctx.restore();
+    }
 }
