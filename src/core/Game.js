@@ -77,6 +77,7 @@ export default class Game {
                     enemy.takeDamage(1,this);
                     ParticleSystem.hit(this, enemy.x + enemy.width/2, enemy.y + enemy.height/2);
                     bullet.dead = true;
+                    this.screenshake.shake(300, 5); 
                 }
             });
         });
@@ -86,6 +87,7 @@ export default class Game {
                 this.player.takeDamage(1, this);
                 ParticleSystem.hit(this, this.player.x + this.player.width/2, this.player.y + this.player.height/2);
                 bullet.dead = true;
+                this.screenshake.shake(300, 15);
             }
         });
     }
