@@ -123,6 +123,8 @@ export default class Game {
         this.enemies = [];
         this.bullets = [];
         this.entities = [this.player];
+        this.enemyBullets = [];
+        this.particles = [];
     }
     addScore(amount) {
         this.score += amount;
