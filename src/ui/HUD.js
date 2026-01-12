@@ -10,12 +10,12 @@ export default class HUD {
         // HUD
         ctx.fillStyle = "white";
         ctx.font = "20px Arial";
-        ctx.fillText(`HP: ${game.player.hp}`, 20, 30);
-        ctx.fillText(`Score: ${game.score}`, 20, 55);
+        ctx.fillText(`HP: ${game.player.hp}`, 30, 30);
+        ctx.fillText(`Score: ${game.score}`, 40, 55);
 
         // Convert ms to seconds
         const timeSec = (game.timeSurvived / 1000).toFixed(1);
-        ctx.fillText(`Time: ${timeSec}s`, 20, 80);
+        ctx.fillText(`Time: ${timeSec}s`, 50, 80);
     }
     
     handleGameOver(game,ctx) {
